@@ -105,7 +105,7 @@ installYabai(){
                 skhd --start-service
             
             ;;
-            [nN]) break ;;
+            [nN]) : ;;
             *) echo "Veuillez répondre par O ou N." ;;
     esac
 

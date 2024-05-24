@@ -1,8 +1,3 @@
 ** Config A MOI **
 
-SA PERMET DE POUVOIR CONFIG SON MAC QUAND ON RESET TOUT COMME MOI
-
-(PRCK JE LE FAIT TT LE TPS)
-
-
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+config le mac pour moi après un reset

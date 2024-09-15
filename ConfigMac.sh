@@ -1,6 +1,6 @@
 #!/bin/bash
 
-logiciel=("Firefox" "Arc" "hiddenbar" "batteryboi" "wget" "git" "tree" "htop" "discord" "iterm2" "MonitorControl" "Nextcloud" "Ollama" "Plex" "python" "qbittorrent" "telegram" "TextMate" "Tor-browser" "whatsapp" "wireshark" "visual-studio-code" "balenaetcher" "prismlauncher")
+logiciel=("Firefox" "Arc" "hiddenbar" "batteryboi" "wget" "git" "tree" "htop" "discord" "iterm2" "MonitorControl" "Nextcloud" "Ollama" "Plex" "python" "qbittorrent" "telegram" "TextMate" "Tor-browser" "whatsapp" "wireshark" "visual-studio-code" "balenaetcher" "prismlauncher" "cyberghost-vpn" "DiffusionBee" "Heroic" "Latest" "Msty" "Obsidian" "Ryujinx" "Ryusak" "Steam" "VLC" "whisky")
 logiciel_deselectionner=()
 
 Installation() {

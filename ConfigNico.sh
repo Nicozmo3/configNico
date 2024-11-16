@@ -61,7 +61,7 @@ menu_interactif() {
         # Lire une touche
         read -rsn1 key
         case $key in
-        $'\x1b') # Détecter les flèches (séquence commence par ESC)
+        $'\x1b') # flèche commence par ça 
             read -rsn2 key # Lire les deux caractères suivants
             case $key in
             '[A') # Flèche haut
@@ -100,7 +100,7 @@ menu_interactif() {
                 selected[$i]=0
             done
             ;;
-        m|M) #Manual add
+        m|M) # ajouter manuellement
             read -p "Entrez le nom du logiciel : " nom
             logiciel+=("$nom")
             echo "Selectionner le gestionnaire de paquet :"

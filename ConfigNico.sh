@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialisation des variables
-FichierLogiciel="choixLogiciel.csv"
+FichierLogiciel=""
 logiciel=()
 package_manager=()
 type_installation=()
@@ -10,22 +10,128 @@ empty=true
 nb_logiciel=0
 
 
+# Choix Sauvegarde/Chargement
+
+ChoixSauvegardeChargement() {
+    while true; do
+        clear
+        echo "Choisissez une option :"
+        echo "1. Sauvegarder la liste des logiciels"
+        echo "2. Charger la liste des logiciels"
+        read -p "Votre choix : " choix
+        case $choix in
+        1)
+            SauvegardeCSV
+            break
+            ;;
+        2)
+            Chargement
+            break
+            ;;
+        *)
+            echo "Choix invalide."
+            ;;
+        esac
+    done
+}
+
+
+
 # Chargement du fichier CSV
-if [[ -f $FichierLogiciel ]]; then
-    while IFS="," read -r ID Name PackageManager Type; do
-        if [[ $ID == "ID" ]]; then
-            continue
-        else
-            logiciel+=("$Name")
-            package_manager+=("$PackageManager")
-            type_installation+=("$Type")
-            ((nb_logiciel++))
-        fi
-    done < "$FichierLogiciel"
-else
-    echo "Erreur : Fichier $FichierLogiciel introuvable."
-    exit 1
-fi
+ChargementCSV() {
+  if [[ -f $FichierLogiciel ]]; then
+      while IFS="," read -r ID Name Category interface; do
+          if [[ $ID == "ID" ]]; then
+              continue
+          else
+              logiciel+=("$Name")
+              package_manager+=("$Category")
+              type_installation+=("$interface")
+              (($nb_logiciel++))
+          fi
+      done < "$FichierLogiciel"
+  else
+      echo "Erreur : Fichier $FichierLogiciel introuvable."
+      exit 1
+  fi
+}
+
+# Récupération des logiciels installé dans le dossier /Applications dans le fichier csv
+RecuperationLogicielInstalle() {
+  while true ; do
+    clear
+    echo "Entrer le nom du fichier à creer : "
+    read -r fichierName
+    if [[ -f "$fichierName.csv" ]]; then
+      echo "Le fichier existe déjà"
+    else
+      touch "$fichierName.csv"
+      break
+    fi
+  done
+  echo "ID,Name,Category,interface" > "$fichierName.csv"
+  nb_application=0
+  for application in /Applications/*; do
+    if [[ -d "$application" ]]; then
+      applicationName=$(basename "$application")
+      echo "Ajout de $applicationName dans le fichier $fichierName.csv"
+      # on remplace les espaces par des -
+      applicationName=$(echo "$applicationName" | sed 's/ /-/g')
+      echo "$nb_application,$applicationName,brew,cask" >> "$fichierName.csv"
+
+      logiciel+=("$applicationName")
+      package_manager+=("brew")
+      type_installation+=("cask")
+      selected[$nb_logiciel]=0
+      ((nb_application++))
+    fi
+  done
+
+
+}
+
+# Choix du csv
+ChoixFichier() {
+  local index=0
+    while true; do
+        clear
+        echo "Choisissez le fichier CSV contenant les logiciels à installer :"
+        echo "Naviguez : ↑ ↓"
+        echo "continuer : Q"
+        echo "------------------------------------------------------"
+        i=0
+        for fichier in *.csv; do
+          if [[ $i -eq $index ]]; then
+            echo -n " > "
+            FichierLogiciel="$fichier"
+          else
+            echo -n "   "
+          fi
+
+            echo "$i. $fichier"
+            ((i++))
+        done
+        echo "------------------------------------------------------"
+        # Lire une touche
+        read -rsn1 key
+        case $key in
+        $'\x1b') # flèche commence par ça 
+            read -rsn2 key # Lire les deux caractères suivants
+            case $key in
+            '[A') ((index--)); [[ $index -lt 0 ]] && index=$((${#fichiers[@]} - 1)) ;;
+            '[B') # Flèche bas
+                ((index++))
+                if [[ $index -ge $i ]]; then index=0; fi
+                ;;
+            esac
+            ;;
+        q|Q|"")# Continuer 
+            break
+            ;;
+        esac
+    done
+}
+
 
 menu_interactif() {
     local index=0
@@ -278,13 +384,18 @@ installYabai() {
     esac
 }
 
-# Initialisation
-installHomebrew
-installNode
-# Exécution du menu interactif
-menu_interactif
+SauvegardeCSV() {
+  RecuperationLogicielInstalle
+}
 
-# Installation des logiciels sélectionnés
-Installation
+Chargement() {
+  installHomebrew
+  installNode
+  ChoixFichier
+  ChargementCSV
+  menu_interactif
+  Installation
+  installYabai
+}
 
-installYabai
+ChoixSauvegardeChargement

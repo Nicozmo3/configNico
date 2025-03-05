@@ -1,14 +1,14 @@
 # -- Changing Window Focus --
 
 # change window focus within space
-cmd - j : yabai -m window --focus south
-cmd - k : yabai -m window --focus north
-cmd - h : yabai -m window --focus west
-cmd - l : yabai -m window --focus east
+ctrl - j : yabai -m window --focus south
+ctrl - k : yabai -m window --focus north
+ctrl - h : yabai -m window --focus west
+ctrl - l : yabai -m window --focus east
 
 #change focus between external displays (left and right)
-alt - s: yabai -m display --focus west
-alt - g: yabai -m display --focus east
+shift + ctrl - s: yabai -m display --focus west
+shift + ctrl - g: yabai -m display --focus east
 
 # -- Modifying the Layout --
 
@@ -36,24 +36,23 @@ shift + alt - e : yabai -m space --balance
 # -- Moving Windows Around --
 
 # swap windows
-shift + alt - j : yabai -m window --swap south
-shift + alt - k : yabai -m window --swap north
-shift + alt - h : yabai -m window --swap west
-shift + alt - l : yabai -m window --swap east
+shift + ctrl - j : yabai -m window --swap south
+shift + ctrl - k : yabai -m window --swap north
+shift + ctrl - h : yabai -m window --swap west
+shift + ctrl - l : yabai -m window --swap east
 
 
 # move window to display left and right
-shift + alt - s : yabai -m window --display west; yabai -m display --focus west;
-shift + alt - g : yabai -m window --display east; yabai -m display --focus east;
+ctrl - s : yabai -m window --display west; yabai -m display --focus west;
+ctrl- g : yabai -m window --display east; yabai -m display --focus east;
 
 
 # move window to prev and next space
-shift + alt - p : yabai -m window --space prev;
-shift + alt - n : yabai -m window --space next;
+shift + ctrl - p : yabai -m window --space prev;
+shift + ctrl - n : yabai -m window --space next;
 
 
-# -- Starting/Stopping/Restarting Yabai --
-
-# stop/start/restart yabai
-ctrl + alt - q : brew services stop yabai
-ctrl + alt - s : brew services start yabai
+lalt - space : yabai -m window --toggle float; sketchybar --trigger window_focus
+shift + lalt - f : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
+lalt - f : yabai -m window --toggle zoom-parent; sketchybar --trigger window_focus
+shift + lalt - 1 : yabai -m window --space 1 && sketchybar --trigger windows_on_spaces

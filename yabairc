@@ -4,6 +4,9 @@ yabai -m config layout bsp
 # new window spawns to the right if vertical split, or bottom if horizontal split
 yabai -m config window_placement second_child
 
+#set the padding to 40 to keep some space for sketchybar
+#yabai -m config external_bar all:52:0
+
 # padding set to 12px
 yabai -m config top_padding 12
 yabai -m config bottom_padding 12
@@ -35,7 +38,12 @@ yabai -m rule --add app="^Cyberghost VPN$" manage=off
 yabai -m rule --add app="^Nextcloud$" manage=off
 yabai -m rule --add app="^CyberGhost VPN$" manage=off
 yabai -m rule --add app="^JetBrains Toolbox$" manage=off
-yabai -m rule --addd app="^BioShock Remastered$" manage=off
-
+yabai -m rule --add app="^BioShock Remastered$" manage=off
+yabai -m rule --add app="^ContentDialogOverlayWindow" manage=off
 # for sketchybar
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+
+
 #yabai -m config external_bar all:32:0
